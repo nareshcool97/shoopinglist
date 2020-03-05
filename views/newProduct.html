@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>New Product</title>
+    <link href="" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/newProd.css">
+    <link rel="stylesheet" type="text/css" href="../css/newProduct.css">
+    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <!-- <script src='../js/newProduct.js'> </script> -->
+    <script src='../js/newProduct.js'>x</script>
+  </head>
+  <body>
+    <div class="testbox">
+      <form action="/">
+        <h1>Create a New Product</h1>
+        <div class="item">
+          <p>Product Code</p>
+          <div class="name-item">
+            <input type="text" id="prod-code" name="prod-code" placeholder="Product code" />
+          </div>
+        </div>
+        <div class="item">
+          <p>Title</p>
+          <div class="name-item">
+                <input type="text" id="title" name="title" placeholder="Title of the product" />
+          </div>
+        </div>
+        <div class="item">
+                <p>Description</p>
+                <textarea id="desc" rows="5"></textarea>
+        </div>
+        <div class="item">
+                <p>Product Type</p>
+                <div class="name-item">
+                      <input type="text" id="prod-type" name="prod-type" placeholder="Type of the product" />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Sale Price</p>
+                <div class="name-item">
+                      <input type="number" id="sale-price" name="saleprice" 
+                      min="1" max="6" value="1" placeholder="Selling Price" />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Purchase Price</p>
+                <div class="name-item">
+                      <input type="number" id="purchase-price" name="purchase-price" placeholder="Product purchase Price" />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Discount</p>
+                <div class="name-item">
+                      <input type="number" id="max-disc" name="discount" placeholder="Max discount applied on the product" />
+                </div>
+        </div>
+
+
+        <div class="item">
+                <p>Sale Tax</p>
+                <div class="name-item">
+                      <input type="number" id="sale-tax" name="sale-tax" placeholder="Sales tax on the product" />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Purchase Tax</p>
+                <div class="name-item">
+                      <input type="number" id="pur-tax" name="purchase-tax" placeholder="Purchase tax" />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Packing Price</p>
+                <div class="name-item">
+                      <input type="number" id="packing-price" name="packing" placeholder="Packing price " />
+                </div>
+        </div>
+
+        <div class="item">
+                <p>Additional or offer discount</p>
+                <div class="name-item">
+                      <input type="number" id="offer" name="offer" placeholder="on top of original discount" />
+                </div>
+        </div>
+        
+        <div class="item">
+                <p>Running Stock</p>
+                <div class="name-item">
+                      <input type="number" id="run-stk" value="0" name="running-stock" placeholder="Stock on purchase" />
+                </div>
+        </div>
+ 
+        <div class="item">
+                <p>Sold Quantity</p>
+                <div class="name-item">
+                      <input type="number" id="sold-qty" value ="0" name="sold-quantity" placeholder="on top of original discount" />
+                </div>
+        </div>
+ 
+      
+        <div class="btn-block">
+                <button id="home-btn" type="button" href="./mainWindow.html">Home</button>
+                <button id="prod-submit" type="submit" href="/">Create Product</button>
+          <button id="prod-index-btn" type="button">Products</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

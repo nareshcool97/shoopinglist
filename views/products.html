@@ -1,0 +1,73 @@
+<html>
+        <script src='../js/products.js'> </script>
+        <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <link rel="stylesheet" type="text/css" href="../css/mainWindow.css">
+    <script>
+            function myFunction() {
+                var input, filter, ul, li, a, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                ul = document.getElementById("prods-tbl");
+                li = ul.getElementsByTagName("tr");
+                for (i = 0; i < li.length; i++) {
+                    a = li[i];
+                    txtValue = a.textContent || a.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        li[i].style.display = "";
+                    } else {
+                        li[i].style.display = "none";
+                    }
+                }
+            }
+    </script>  
+
+<div class="btn-block">
+        <button id="home-btn" type="button">Home</button>
+        <button id='new-prod-btn'>New Product</button>
+</div>
+
+<!DOCTYPE html>
+<head>
+<style>
+    h1{
+        margin: 5px 5px 5px 5px;
+    }
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+  margin: 5px 5px 5px 5px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h1>Products</h1>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for products.." title="Type in a name">
+
+<table id="prods-tbl">
+  <tr>
+    <th width="20%">ProductCode</th>
+    <th width="20%">Title</th>
+    <th width="20%">Description</th>
+    <th width="15%">Sale Price</th>
+    <th width="15%">Available Quantity</th>
+    <th width="10%">Actions</th>
+  </tr>
+  <div id="result"></div>
+</table>
+
+</body>
+
+</html>
