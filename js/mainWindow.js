@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
     makeBill.addEventListener('click', async () => {
-      await window.loadURL(`file://${__dirname}/`+ 'makeBill' +`.html`)
+      await window.loadURL(`file://${__dirname}/`+ 'newBill' +`.html`)
     });
     // ipc.send("mainWindowLoaded")
     // ipc.on("resultSent", function(evt, result){
