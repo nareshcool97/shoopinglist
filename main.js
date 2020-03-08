@@ -29,6 +29,7 @@ const onAppReady = () => {
         }
     });
     mainWindow.loadURL(mainWindowUrl);
+    mainWindow.maximize();
     mainWindow.on('closed', function(){
         app.quit();
     })
@@ -50,19 +51,41 @@ const onAppReady = () => {
 //IPC all db actions
 
 ipcMain.on('newProdSubmit', async (event, args) => {
-   const res = await knex('products').insert(args)
-   if(typeof res[0] == 'number'){
-    await callNotification('New Product succesfully created!', args.title)
-   }else{
-    await callNotification('Product creation falied!', 'Please try again')
+    const prod = await knex('products').select('*').where('productCode', args.productCode)
+    if(typeof prod[0] == 'number'){
+        await prod.update(args)
+    }else{
+    const res = await knex('products').insert(args)
+    if(typeof res[0] == 'number'){
+        await callNotification('New Product succesfully created!', args.title)
+    }else{
+        await callNotification('Product creation falied!', 'Please try again')
    }
+  }
     // event.sender.send('formSubmissionResults', results);
  });
 
- ipcMain.on('productsWindowLoaded', async event => {
-    const result = await knex('products').select('productCode','title','description','salePrice','availableQuantity').orderBy('id', 'inc')
-     await event.sender.send('productResultSent', (event, result));
-});
+ ipcMain.on('newBillSubmit', async (event, args) => {
+    const res = await knex('bills').insert(args)
+    if(typeof res[0] == 'number'){
+     await callNotification('New bill succesfully created! Invoice#', args.billNumber)
+    }else{
+     await callNotification('Product creation falied!', 'Please try again')
+    }
+     // event.sender.send('formSubmissionResults', results);
+  });
+
+    ipcMain.on('productsWindowLoaded', async event => {
+        const result = await knex('products').select('productCode','title','description','salePrice','availableQuantity').orderBy('id', 'inc')
+        await event.sender.send('productResultSent', (event, result));
+    });
+
+    ipcMain.on('editProd', async (event, prodCode) => {
+        console.log('im here', prodCode)
+        const result = await knex('products').select('*').where('productCode', prodCode)
+        await event.sender.send('productDetSent', (event, result[0]));
+    });
+
 
 
 
