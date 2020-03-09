@@ -5,6 +5,7 @@ const { encode } = require('../utils/encode.js')
 const currentWindow = remote.getCurrentWindow()
 
 document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById('username').focus();
     var regLink = document.getElementById('reglink');
     regLink.addEventListener('click', async event => {
      await loadPage(currentWindow, 'register')

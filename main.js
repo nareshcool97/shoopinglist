@@ -4,6 +4,7 @@
 const { app, BrowserWindow, Menu, ipcMain, Notification } = require("electron");
 const url = require("url");
 const path = require("path");
+
 const { knex } = require('./server/server')
 const mainWindowUrl = url.format({
     pathname: path.join(__dirname, "views/login.html"),
@@ -53,7 +54,9 @@ const onAppReady = () => {
 ipcMain.on('newProdSubmit', async (event, args) => {
     const prod = await knex('products').select('*').where('productCode', args.productCode)
     if(typeof prod[0] == 'number'){
-        await prod.update(args)
+        delete args[productCode]; 
+        console.log(args)
+        await knex('products').where('productCode', args.productCode).update(args)
     }else{
     const res = await knex('products').insert(args)
     if(typeof res[0] == 'number'){
@@ -81,11 +84,54 @@ ipcMain.on('newProdSubmit', async (event, args) => {
     });
 
     ipcMain.on('editProd', async (event, prodCode) => {
-        console.log('im here', prodCode)
-        const result = await knex('products').select('*').where('productCode', prodCode)
-        await event.sender.send('productDetSent', (event, result[0]));
+        const editWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true,
+                additionalArguments: [prodCode]
+            }
+        });
+        global.prodId= prodCode
+        await editWindow.loadURL(`file://${__dirname}/`+ 'views/editProduct' +`.html`)
+        // await event.sender.send('productDetSent', (event, result[0]));
     });
 
+    ipcMain.on('editFormLoaded', async (event, prodCode) => {
+        const result = await knex('products').select('*').where('productCode', prodCode)        
+         await event.sender.send('productDetSent', (event, result[0]));
+    });
+
+    ipcMain.on('editProdSubmit', async (event, data) => {
+        let prodCode = data['productCode']
+        delete data['productCode'] 
+        const result = await knex('products').where('productCode', prodCode).update(data)
+        global.editedProd = true
+        if(typeof result == 'number'){
+            await event.sender.send('productEdited');
+            await callNotification('Product successfully updated!')
+        }else{
+            await callNotification('Product NOT successfully updated! Try again!')
+        }   
+    });
+    
+    ipcMain.on('btnBarFun', async (event, prodCode) => {
+        const result = await knex('products').select('*').where('productCode', prodCode.substring(4,))  
+        barcodePdf(result[0])
+    });
+
+
+    async function barcodePdf(data){
+        console.log(data)
+        window_to_PDF = new BrowserWindow({show : true,  webPreferences: {
+            nodeIntegration: true
+        }});//to just open the browser in background
+        global.barCode = {
+            title: data.title,
+            code: data.productCode,
+            price: data.salePrice
+        }
+       await window_to_PDF.loadURL(`file://${__dirname}/`+ 'views/barCode' +`.html`); //give the file link you want to display
+
+    }
 
 
 

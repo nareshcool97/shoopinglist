@@ -6,6 +6,7 @@ const { knex } = require('./../server/server')
 
 document.addEventListener("DOMContentLoaded", function(){
     var newProd =  document.getElementById('new-prod-btn')
+    var reload =  document.getElementById('reload')
     var window = remote.getCurrentWindow({webPreferences: {
       nodeIntegration: true
     }})
@@ -16,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function(){
       await loadPage(window, pagePath)
      });
 
+     reload.addEventListener('click',  async () => {
+        window.reload();
+       });
+
     newProd.addEventListener('click', async () => {
         await window.loadURL(`file://${__dirname}/`+ 'newProduct' +`.html`)
     });
@@ -23,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function(){
     ipcRenderer.send("productsWindowLoaded")
     ipcRenderer.on("productResultSent", (evt, result) => {
         let resultEl = document.getElementById("prods-tbl");
+        if(resultEl){
         result.forEach(element => {
             let tr = document.createElement('tr');
             tr.className = element.productCode
@@ -37,15 +43,32 @@ document.addEventListener("DOMContentLoaded", function(){
             btn.id=element.productCode
             resultEl.appendChild(tr).appendChild(btn)
 
+            btnBar=document.createElement('button');
+            btnBar.innerHTML = "Print |||"
+            btnBar.id='bar-'+element.productCode
+            btnBar.className=element.productCode +'-'+ element.title+'-'+element.salePrice
+            resultEl.appendChild(tr).appendChild(btnBar)
             editBtn= document.getElementById(element.productCode)
             editBtn.addEventListener('click', async (evt) =>{
-                console.log(evt.toElement.id)
-               await ipcRenderer.send("editProd", evt.toElement.id);
-               await window.loadURL(`file://${__dirname}/`+ 'newProduct' +`.html`)
+                // await window.loadURL(`file://${__dirname}/`+ 'editProduct' +`.html`+`?id=${evt.toElement.id}`)
+                await ipcRenderer.send("editProd", evt.toElement.id);
+              
+            })
+
+            btnBarFun= document.getElementById('bar-'+element.productCode)
+            btnBarFun.addEventListener('click', async (evt) =>{
+                // await window.loadURL(`file://${__dirname}/`+ 'editProduct' +`.html`+`?id=${evt.toElement.id}`)
+                await ipcRenderer.send("btnBarFun", evt.toElement.id);
+              
             })
             // resultEl.insertAdjacentHTML('afterbegin', '<tr><td>One </td><td>Tow</td><td>Three</td></tr>');
         });
-    }); 
+     }
+    });
+
+    ipcRenderer.on("productEdited", () => {
+        window.reload();
+    })
     
 
 

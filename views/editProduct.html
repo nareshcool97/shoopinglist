@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Product</title>
+    <title>Edit Product</title>
     <link href="" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../css/newProd.css">
     <link rel="stylesheet" type="text/css" href="../css/newProduct.css">
     <link rel="stylesheet" type="text/css" href="../css/common.css">
     <!-- <script src='../js/newProduct.js'> </script> -->
-    <script src='../js/newProduct.js'>x</script>
+    <script src='../js/editProduct.js'>x</script>
   </head>
   <body>
     <div class="testbox">
       <form action="/">
-        <h1>Create a New Product</h1>
+        <h1>Edit Product</h1>
         <div class="item">
           <p>Product Code</p>
           <div class="name-item">
-            <input type="text" id="prod-code" name="prod-code" placeholder="Product code" />
+            <input type="text" id="prod-code" name="prod-code" placeholder="Product code" readonly/>
           </div>
         </div>
         <div class="item">
@@ -40,7 +40,7 @@
                 <p>Sale Price</p>
                 <div class="name-item">
                       <input type="number" id="sale-price" name="saleprice" 
-                      min="1" max="999999" value="1" placeholder="Selling Price" />
+                      min="1" max="9999999" value="1" placeholder="Selling Price" />
                 </div>
         </div>
 
@@ -103,9 +103,7 @@
  
       
         <div class="btn-block">
-                <button id="home-btn" type="button" href="./mainWindow.html">Home</button>
-                <button id="prod-submit" type="submit" href="/">Create Product</button>
-          <button id="prod-index-btn" type="button">Products</button>
+                <button id="prod-edit" type="submit" href="/">Update Product</button>
         </div>
       </form>
     </div>

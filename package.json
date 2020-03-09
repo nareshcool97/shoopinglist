@@ -23,7 +23,10 @@
   "license": "MIT",
   "dependencies": {
     "autocompleter": "^6.0.2",
+    "bwip-js": "^2.0.6",
     "electron": "8.0.1",
+    "electron-html-to": "^2.6.0",
+    "html-pdf": "^2.2.0",
     "knex": "^0.20.10",
     "knex-upsert": "0.0.4",
     "sqlite3": "^4.1.1"
