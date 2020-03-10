@@ -52,19 +52,14 @@ const onAppReady = () => {
 //IPC all db actions
 
 ipcMain.on('newProdSubmit', async (event, args) => {
-    const prod = await knex('products').select('*').where('productCode', args.productCode)
-    if(typeof prod[0] == 'number'){
-        delete args[productCode]; 
-        await knex('products').where('productCode', args.productCode).update(args)
-    }else{
     const res = await knex('products').insert(args)
     if(typeof res[0] == 'number'){
         await callNotification('New Product succesfully created!', args.title)
+        event.sender.send('newProdCreated');
     }else{
-        await callNotification('Product creation falied!', 'Please try again')
+     await callNotification('Product creation falied!', 'Please try again')
    }
-  }
-    // event.sender.send('formSubmissionResults', results);
+   
  });
 
  ipcMain.on('newBillSubmit', async (event, args) => {
@@ -135,6 +130,27 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         const result = await knex('products').select('*').where('productCode', prodCode.substring(4,))  
         barcodePdf(result[0])
     });
+
+    ipcMain.on('btnBarFun', async (event, prodCode) => {
+        const result = await knex('products').select('*').where('productCode', prodCode.substring(4,))  
+        barcodePdf(result[0])
+    });
+
+    ipcMain.on("printBill", async (evt, invoiceNum)=>{
+        let bill = await knex('bills').select('*').where('billNumber', invoiceNum)
+         printBill(bill[0])
+    });
+
+   
+     function printBill(newBill){
+        window_to_PDF = new BrowserWindow({show : true,  webPreferences: {
+            nodeIntegration: true
+        }});//to just open the browser in background
+        global.billItems = newBill
+ 
+        window_to_PDF.loadURL(`file://${__dirname}/`+ 'views/printBill' +`.html`); //give the file link you want to display
+
+    }
 
 
     async function barcodePdf(data){

@@ -19,15 +19,15 @@ th.description {
 
 td.quantity,
 th.quantity {
-    width: 40px;
-    max-width: 40px;
+    width: 45px;
+    max-width: 45px;
     word-break: break-all;
 }
 
 td.price,
 th.price {
-    width: 40px;
-    max-width: 40px;
+    width: 45px;
+    max-width: 45px;
     word-break: break-all;
 }
 
@@ -37,8 +37,8 @@ th.price {
 }
 
 .ticket {
-    width: 155px;
-    max-width: 155px;
+    width: 165px;
+    max-width: 165px;
 }
 
 img {
@@ -51,4 +51,8 @@ img {
     .hidden-print * {
         display: none !important;
     }
+}
+
+#bill-tot{
+    float: right;
 }

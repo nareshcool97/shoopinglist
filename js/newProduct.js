@@ -40,7 +40,13 @@ document.addEventListener("DOMContentLoaded", async function(){
             availableQuantity: parseFloat(document.getElementById("run-stk").value) - parseFloat(document.getElementById("sold-qty").value)
           }
         await ipcRenderer.send('newProdSubmit', (event, data));
-        await window.loadURL(`file://${__dirname}/`+ 'newProduct' +`.html`)
+        
+    });
+
+    ipcRenderer.on("newProdCreated", evt => {
+      let pagePath = `file://${__dirname}/`+ 'newProduct' +`.html`
+        loadPage(window, pagePath)
+
     });
 
 });

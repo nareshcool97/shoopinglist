@@ -9,6 +9,8 @@ const autocomplete = require('autocompleter');
 document.addEventListener("DOMContentLoaded",  function(){
     var homePage =  document.getElementById('home-btn')
     let invoice = document.getElementById('invoice')
+    let reloadPage = document.getElementById('reload');
+    let prodPage = document.getElementById('prod-page');
     invoice.style.cssText="background-color:#F5F9A6"
     var window =  remote.getCurrentWindow({webPreferences: {
         nodeIntegration: true
@@ -16,6 +18,13 @@ document.addEventListener("DOMContentLoaded",  function(){
      homePage.addEventListener('click',  () => {
     let pagePath = `file://${__dirname}/`+ 'mainWindow' +`.html`
      loadPage(window, pagePath)
+    });
+    prodPage.addEventListener('click',  async () => {
+       await window.loadURL(`file://${__dirname}/`+ 'views/products' +`.html`)
+     });
+
+    reloadPage.addEventListener('click',  () => {
+        window.reload();
     });
 
     var minlength = 3;
@@ -173,13 +182,9 @@ document.addEventListener("DOMContentLoaded",  function(){
             billTotal: totBillValue,
             amountPaid: amtPaid
          }
-
+     
          await ipcRender.send('newBillSubmit', (event, bill));
-
-    });
-  
-
-    
-    
+         ipcRender.send("printBill", invoiceNum)
+    });    
 
 });
