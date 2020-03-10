@@ -41,13 +41,29 @@ document.addEventListener("DOMContentLoaded", function(){
             btn=document.createElement('button');
             btn.innerHTML = "Edit"
             btn.id=element.productCode
+            btn.style.cssText="font-size:12px;sixe:6px;padding:5px"
             resultEl.appendChild(tr).appendChild(btn)
 
             btnBar=document.createElement('button');
             btnBar.innerHTML = "Print |||"
+            btnBar.style.cssText="font-size:12px;sixe:6px;padding:5px"
             btnBar.id='bar-'+element.productCode
             btnBar.className=element.productCode +'-'+ element.title+'-'+element.salePrice
             resultEl.appendChild(tr).appendChild(btnBar)
+
+            showBtn=document.createElement('button');
+            showBtn.innerHTML = "Show"
+            showBtn.style.cssText="font-size:12px;sixe:6px;padding:5px"
+            showBtn.id='show-'+element.productCode
+            resultEl.appendChild(tr).appendChild(showBtn)
+
+            showBtn= document.getElementById('show-'+element.productCode)
+            showBtn.addEventListener('click', async (evt) =>{
+                // await window.loadURL(`file://${__dirname}/`+ 'editProduct' +`.html`+`?id=${evt.toElement.id}`)
+                await ipcRenderer.send("showProd", evt.toElement.id);
+              
+            })
+
             editBtn= document.getElementById(element.productCode)
             editBtn.addEventListener('click', async (evt) =>{
                 // await window.loadURL(`file://${__dirname}/`+ 'editProduct' +`.html`+`?id=${evt.toElement.id}`)

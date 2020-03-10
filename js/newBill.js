@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         fetch: async (text, update) => {
             text = text.toLowerCase();
             // you can also use AJAX requests instead of preloaded data
-            let suggestions = await knex('products').select('title', 'productCode').where('productCode', 'like', '%'+text+'%').orWhere('title', 'like', '%'+text+'%').map(item => item).filter(n => n.productCode.toLowerCase().startsWith(text) || n.title.toLowerCase().startsWith(text));
+            let suggestions = await knex('products').select('title', 'productCode').where('productCode', 'like', '%'+text+'%').orWhere('title', 'like', '%'+text+'%').map(item => item).filter(n => n.productCode.toLowerCase().search(text) || n.title.toLowerCase().search(text));
             suggestions = suggestions.map(item => ({ value: item.productCode, label: item.title }))
             update(suggestions);
         },
@@ -159,8 +159,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         const custPhone = document.getElementById('cust-phone').value
         const custAddress = document.getElementById('cust-address').value
         const amtPaid = document.getElementById('amt-paid').value
-       
-         console.log({ billItems: prodJson })
+
         const bill = {
             billNumber: invoiceNum,
             userID: localStorage.getItem("userId"),

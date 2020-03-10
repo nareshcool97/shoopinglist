@@ -55,7 +55,6 @@ ipcMain.on('newProdSubmit', async (event, args) => {
     const prod = await knex('products').select('*').where('productCode', args.productCode)
     if(typeof prod[0] == 'number'){
         delete args[productCode]; 
-        console.log(args)
         await knex('products').where('productCode', args.productCode).update(args)
     }else{
     const res = await knex('products').insert(args)
@@ -95,9 +94,28 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         // await event.sender.send('productDetSent', (event, result[0]));
     });
 
+    ipcMain.on('showProd', async (event, prodCode) => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true,
+                additionalArguments: [prodCode]
+            }
+        });
+        
+        global.prodId= prodCode.substring(5,)
+        await showWindow.loadURL(`file://${__dirname}/`+ 'views/showProduct' +`.html`)
+        // await event.sender.send('productDetSent', (event, result[0]));
+    });
+
+
     ipcMain.on('editFormLoaded', async (event, prodCode) => {
         const result = await knex('products').select('*').where('productCode', prodCode)        
          await event.sender.send('productDetSent', (event, result[0]));
+    });
+
+    ipcMain.on('showProductWindowLoaded', async (event, prodCode) => {
+        const result = await knex('products').select('*').where('productCode', prodCode)        
+         await event.sender.send('productDetailsSent', (event, result[0]));
     });
 
     ipcMain.on('editProdSubmit', async (event, data) => {
@@ -120,7 +138,6 @@ ipcMain.on('newProdSubmit', async (event, args) => {
 
 
     async function barcodePdf(data){
-        console.log(data)
         window_to_PDF = new BrowserWindow({show : true,  webPreferences: {
             nodeIntegration: true
         }});//to just open the browser in background
@@ -136,7 +153,6 @@ ipcMain.on('newProdSubmit', async (event, args) => {
 
 
 exports.openWindow = (filename) => {
-    console.log(`file://${__dirname}/`+ filename +`.html`)
     let win = new BrowserWindow({
         webPreferences: {
             nodeIntegration: true
