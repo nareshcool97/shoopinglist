@@ -55,4 +55,10 @@ img {
 
 #bill-tot{
     float: right;
+    font-size: 20px;
+}
+
+#tot-name{
+    float: center;
+    font-size: 20px;
 }

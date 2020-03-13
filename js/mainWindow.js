@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
     var logout =  document.getElementById('logout-btn')
     var prodPage = document.getElementById('prod-index-btn')
     var makeBill = document.getElementById('make-bill-btn')
-    var printBill = document.getElementById('print-bill-btn')
+    var reportBtn = document.getElementById('reports-btn')
     var window = remote.getCurrentWindow({webPreferences: {
       nodeIntegration: true
     }})
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function(){
       await window.loadURL(`file://${__dirname}/`+ 'newBill' +`.html`)
     });
 
-    printBill.addEventListener('click', async () => {
-      await window.loadURL(`file://${__dirname}/`+ 'printBill' +`.html`)
+    reportBtn.addEventListener('click', async () => {
+      await window.loadURL(`file://${__dirname}/`+ 'reports' +`.html`)
     });
     // ipc.send("mainWindowLoaded")
     // ipc.on("resultSent", function(evt, result){

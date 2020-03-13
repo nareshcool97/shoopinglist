@@ -73,7 +73,7 @@ ipcMain.on('newProdSubmit', async (event, args) => {
   });
 
     ipcMain.on('productsWindowLoaded', async event => {
-        const result = await knex('products').select('productCode','title','description','salePrice','availableQuantity').orderBy('id', 'inc')
+        const result = await knex('products').select('productCode','title','description','salePrice','availableQuantity').orderBy('id', 'desc')
         await event.sender.send('productResultSent', (event, result));
     });
 
@@ -102,6 +102,38 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         // await event.sender.send('productDetSent', (event, result[0]));
     });
 
+    ipcMain.on("prodList", event => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        global.top = false
+        showWindow.loadURL(`file://${__dirname}/`+ 'views/productsReport' +`.html`)
+    })
+
+    ipcMain.on("prodListTop", event => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        global.top = true
+        showWindow.loadURL(`file://${__dirname}/`+ 'views/productsReport' +`.html`)
+    })
+
+    ipcMain.on('prodReportLoaded', async (event, top) => {
+        let result = []
+        if(top){
+          result = await knex('products').select('id','productCode','title','description','productType','salePrice','purchasePrice','discount','runningStock','soldQuantity','availableQuantity').orderBy('soldQuantity', 'desc').limit(200)
+        }else{ 
+          result = await knex('products').select('id','productCode','title','description','productType','salePrice','purchasePrice','discount','runningStock','soldQuantity','availableQuantity').orderBy('title', 'inc')
+        }
+         await event.sender.send('productsResultSent', (event, result));
+        // await event.sender.send('productDetSent', (event, result[0]));
+    });
+
+
 
     ipcMain.on('editFormLoaded', async (event, prodCode) => {
         const result = await knex('products').select('*').where('productCode', prodCode)        
@@ -126,11 +158,6 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         }   
     });
     
-    ipcMain.on('btnBarFun', async (event, prodCode) => {
-        const result = await knex('products').select('*').where('productCode', prodCode.substring(4,))  
-        barcodePdf(result[0])
-    });
-
     ipcMain.on('btnBarFun', async (event, prodCode) => {
         const result = await knex('products').select('*').where('productCode', prodCode.substring(4,))  
         barcodePdf(result[0])

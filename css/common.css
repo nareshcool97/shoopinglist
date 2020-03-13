@@ -49,8 +49,17 @@ button {
     padding: 0px;
 }
 
+.item{
+  padding: 0px 0px 0px 0px;
+}
 
-.prod-table tr:nth-child(even){background-color: #f2f2f2;}
+#prods-list-tbl {
+  font-size: 15px;
+}
+
+#prods-list-tbl tr:nth-child(even){background-color: #f2f2f2;}
+
+.prod-table tr:nth-child(even){background-color: #f5ecec;}
 
 .prod-table input{
     width: 100%;

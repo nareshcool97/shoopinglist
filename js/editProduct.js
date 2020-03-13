@@ -42,8 +42,6 @@ document.addEventListener("DOMContentLoaded", async function(){
             discount:  parseFloat(document.getElementById("max-disc").value),
             saleTax:  parseFloat(document.getElementById("sale-tax").value),
             purchaseTax:  parseFloat(document.getElementById("pur-tax").value),
-            packingPrice:  parseFloat(document.getElementById("packing-price").value),
-            offerDiscount:  parseFloat(document.getElementById("offer").value),
             runningStock: parseFloat(document.getElementById("run-stk").value),
             soldQuantity: parseFloat(document.getElementById("sold-qty").value),
             availableQuantity: parseFloat(document.getElementById("run-stk").value) - parseFloat(document.getElementById("sold-qty").value)

@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded",  function(){
     var homePage =  document.getElementById('home-btn')
     let invoice = document.getElementById('invoice')
     let reloadPage = document.getElementById('reload');
-    let prodPage = document.getElementById('prod-page');
     invoice.style.cssText="background-color:#F5F9A6"
     var window =  remote.getCurrentWindow({webPreferences: {
         nodeIntegration: true
@@ -19,10 +18,6 @@ document.addEventListener("DOMContentLoaded",  function(){
     let pagePath = `file://${__dirname}/`+ 'mainWindow' +`.html`
      loadPage(window, pagePath)
     });
-    prodPage.addEventListener('click',  async () => {
-       await window.loadURL(`file://${__dirname}/`+ 'views/products' +`.html`)
-     });
-
     reloadPage.addEventListener('click',  () => {
         window.reload();
     });
@@ -41,7 +36,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         onSelect:  async (item) => {
             event.preventDefault();
             searchBarInputBox.value = '';
-            let prod =  await knex('products').select('productCode','title', 'salePrice','saleTax', 'discount').where('productCode', item.value)
+            let prod =  await knex('products').select('productCode','title', 'salePrice','saleTax', 'discount',).where('productCode', item.value)
             if(typeof prod !== 'undefined' && prod.length > 0){
                 let resultEl = document.getElementById("inv-prod");
                 let tr = document.createElement('tr');
@@ -99,6 +94,7 @@ document.addEventListener("DOMContentLoaded",  function(){
             calBillTotal();
             delBtn[i].addEventListener("click", event => {
                 calBillTotal();
+                listItemsTrans();
                 event.currentTarget.parentElement.parentElement.remove()
             });
     
@@ -158,6 +154,8 @@ document.addEventListener("DOMContentLoaded",  function(){
                 value: prodDet[6].value,
                 discountedValue: prodDet[7].value
             }
+            qtyUpdate(prodDet[0].value, prodDet[5].value)
+
           }
           prodJson.push(prodItem)
         })
@@ -186,5 +184,16 @@ document.addEventListener("DOMContentLoaded",  function(){
          await ipcRender.send('newBillSubmit', (event, bill));
          ipcRender.send("printBill", invoiceNum)
     });    
+
+    async function qtyUpdate(prodItemCode, qty){
+        let prodItem = await knex('products').select('runningStock', 'soldQuantity', 'availableQuantity').where('productCode', prodItemCode)
+        let soldQty = parseFloat(prodItem[0].soldQuantity) + parseFloat(qty)
+        let avlQty =  parseFloat(prodItem[0].runningStock) - parseFloat(soldQty)
+        resultProd = await knex('products').where('productCode', prodItemCode).update({
+         soldQuantity: soldQty,
+         availableQuantity: avlQty
+        })
+
+    }
 
 });

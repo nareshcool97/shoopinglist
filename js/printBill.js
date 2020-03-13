@@ -1,8 +1,6 @@
 const electron = require("electron");
 remote = electron.remote
 
-const pdf = require('html-pdf');
-
 document.addEventListener("DOMContentLoaded",  async function(){
 
     bill = remote.getGlobal('billItems');
@@ -11,7 +9,7 @@ document.addEventListener("DOMContentLoaded",  async function(){
     let billDisctot = document.getElementById("bill-tot")
     let billDate = document.getElementById("bill-date")
     billDisctot.innerText = bill.billTotal
-    billDate.innerHTML = bill.billDate.toString().slice(0, 15);
+    billDate.innerHTML = bill.billDate.toString().slice(0, 21);
     Object.values(JSON.parse(bill.billItems)).forEach(element => {
      element.forEach(value => {
             let items = {

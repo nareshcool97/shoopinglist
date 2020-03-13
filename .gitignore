@@ -66,3 +66,10 @@ typings/
 #db
 *.sqlite
 *.db
+
+/release-builds
+
+./release-builds
+
+.DS_Store
+/imgs/.DS_Store
