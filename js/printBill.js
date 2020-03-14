@@ -7,8 +7,12 @@ document.addEventListener("DOMContentLoaded",  async function(){
     let window = remote.getCurrentWindow()
     let tb = document.getElementById("bill-items")
     let billDisctot = document.getElementById("bill-tot")
+    let paid = document.getElementById("paid")
+    let bal = document.getElementById("bal")
     let billDate = document.getElementById("bill-date")
     billDisctot.innerText = bill.billTotal
+    paid.innerText = bill.amountPaid
+    bal.innerText = bill.balanceAmount
     billDate.innerHTML = bill.billDate.toString().slice(0, 21);
     Object.values(JSON.parse(bill.billItems)).forEach(element => {
      element.forEach(value => {

@@ -38,7 +38,13 @@ document.addEventListener("DOMContentLoaded", async function(){
             soldQuantity: parseFloat(document.getElementById("sold-qty").value),
             availableQuantity: parseFloat(document.getElementById("run-stk").value) - parseFloat(document.getElementById("sold-qty").value)
           }
-        await ipcRenderer.send('newProdSubmit', (event, data));
+          if(data.productCode && data.title && data.salePrice){
+            await ipcRenderer.send('newProdSubmit', (event, data));
+          }else{
+              alert('product code, title , sale price to be filled!')
+              event.preventDefault();
+          }
+
         
     });
 

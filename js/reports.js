@@ -30,5 +30,25 @@ document.addEventListener("DOMContentLoaded",  function(){
     });
     }
 
+    var todayBills =  document.getElementById('today-bill')
+    if(todayBills){
+        todayBills.addEventListener('click',  () => {
+        ipcRender.send("todaysBill")
+    });
+    }
+
+    var dateBills =  document.getElementById('bill-dates')
+    if(dateBills){
+
+        dateBills.addEventListener('click',  () => {
+            let from = document.getElementById('from-date').value
+            let end = document.getElementById('to-date').value
+            console.log(from)
+            let dates = { from: Date.parse(new Date(from)), end:  Date.parse(new Date(end)) }
+             console.log(dates)
+            ipcRender.send("dateBills", (event, dates))
+    });
+    }
+
 
 });

@@ -7,10 +7,10 @@ exports.up = async knex => {
 		t.dateTime('updatedAt').nullable();
 		t.integer('userID').notNull();
         t.string('title').notNull();
-        t.string('description').notNull();
+        t.string('description').nullable();
         t.string('productType').nullable();
         t.float('salePrice').notNull();
-        t.float('purchasePrice').notNull();
+        t.float('purchasePrice').nullable();
         t.float('discount').nullable()
         t.float('purchaseTax').nullable()
         t.float('saleTax').nullable()

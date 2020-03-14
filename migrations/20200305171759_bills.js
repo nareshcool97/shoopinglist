@@ -10,14 +10,15 @@ exports.up = function(knex) {
         t.string('address').nullable();
         t.dateTime('billDate').notNull().defaultTo(knex.fn.now());;
         t.string('customerName').nullable();
-        t.string('customerAddress').notNull();
-        t.string('customerPhone').notNull();
+        t.string('customerAddress').nullable();
+        t.string('customerPhone').nullable();
         t.json('billItems').notNull()
         t.float('billTotal').notNull()
         t.float('discountOnTotal').nullable()
-        t.float('amountPaid').notNull()
+        t.float('amountPaid').nullable()
         t.float('discountOnBill').nullable()
         t.float('balanceAmount').nullable()
+        t.integer('bDate').nullable()
     }); 
 };
 

@@ -122,6 +122,28 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         showWindow.loadURL(`file://${__dirname}/`+ 'views/productsReport' +`.html`)
     })
 
+    ipcMain.on("todaysBill", event => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        global.today = true
+        showWindow.loadURL(`file://${__dirname}/`+ 'views/billReport' +`.html`)
+    })
+
+    ipcMain.on("dateBills", (event, dates) => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        global.today = null
+        global.from = dates.from
+        global.end = dates.end
+        showWindow.loadURL(`file://${__dirname}/`+ 'views/billReport' +`.html`)
+    })
+
     ipcMain.on('prodReportLoaded', async (event, top) => {
         let result = []
         if(top){
@@ -130,6 +152,22 @@ ipcMain.on('newProdSubmit', async (event, args) => {
           result = await knex('products').select('id','productCode','title','description','productType','salePrice','purchasePrice','discount','runningStock','soldQuantity','availableQuantity').orderBy('title', 'inc')
         }
          await event.sender.send('productsResultSent', (event, result));
+        // await event.sender.send('productDetSent', (event, result[0]));
+    });
+
+    ipcMain.on('billReportLoaded', async (event, data) => {
+        let result = []
+        if(data.today){
+            var start = new Date();
+            start.setHours(0,0,0,0);
+            var end = new Date();
+            end.setHours(23,59,59,999)
+            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [Date.parse(start), Date.parse(end)])
+        }else{ 
+            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [data.from, data.end])
+        }
+    
+         await event.sender.send('billReportSent', (event, result));
         // await event.sender.send('productDetSent', (event, result[0]));
     });
 

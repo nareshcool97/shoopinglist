@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded",  function(){
                 let td1 = document.createElement('td')
                 td1.className = "sNo"
                 prod[0].quantity = 1
-                prod[0].value = prod[0].salePrice
-                prod[0].discountedValue = prod[0].salePrice - prod[0].discount
+                prod[0].value = parseFloat(prod[0].salePrice).toFixed(2)
+                prod[0].discountedValue = parseFloat(prod[0].salePrice - prod[0].discount).toFixed(2)
                 resultEl.appendChild(tr).appendChild(td1)
                 Object.keys(prod[0]).forEach( key => {
                     let td= document.createElement('td')
@@ -109,6 +109,8 @@ document.addEventListener("DOMContentLoaded",  function(){
 
     function calBillTotal(){
         let totalDiscountedBill = document.getElementById('bill-total')
+        let totalAmountPaid = document.getElementById('amt-paid')
+        let balDue = document.getElementById('bal-due')
         totalDiscountedBill.style.cssText = "text-align:right;size=50;font-size:25px;background-color:#F5F9A6;-webkit-appearance: none;-moz-appearance: textfield;";
         let qty = document.getElementsByClassName('quantity')
         let price = document.getElementsByClassName('salePrice')
@@ -119,14 +121,14 @@ document.addEventListener("DOMContentLoaded",  function(){
         let billAmt = 0
         for(var i = 0; i < qty.length; i++) {
 
-           let totVal = ((parseFloat(qty[i].value) || 0) * (parseFloat(price[i].value) || 0)) + (parseFloat(tax[i].value || 0 ))
-           let disTot = (parseFloat(totVal) || 0 ) - (parseFloat(disc[i].value) || 0)
-           
-           val[i].value = parseFloat(totVal)
-           discVal[i].value = parseFloat(disTot)
-           billAmt += parseFloat(discVal[i].value);
+           let totVal = ((parseFloat(qty[i].value).toFixed(2) || 0) * (parseFloat(price[i].value).toFixed(2) || 0)) + ((parseFloat(tax[i].value).toFixed(2) || 0 ))
+           let disTot = (parseFloat(totVal).toFixed(2) || 0 ) - (parseFloat(disc[i].value).toFixed(2) || 0)
+           val[i].value = parseFloat(totVal).toFixed(2)
+           discVal[i].value = parseFloat(disTot).toFixed(2)
+           billAmt += parseFloat(discVal[i].value).toFixed(2);
         }
-        totalDiscountedBill.value = billAmt
+        totalDiscountedBill.value = parseFloat(billAmt).toFixed(2)
+        balDue.value = parseFloat(billAmt).toFixed(2) - parseFloat(totalAmountPaid.value).toFixed(2)
     }
 
     let saveBtn = document.getElementById('save-bill')
@@ -166,6 +168,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         const custPhone = document.getElementById('cust-phone').value
         const custAddress = document.getElementById('cust-address').value
         const amtPaid = document.getElementById('amt-paid').value
+        const balance = parseFloat(totBillValue).toFixed(2) - parseFloat(amtPaid).toFixed(2)
 
         const bill = {
             billNumber: invoiceNum,
@@ -178,7 +181,9 @@ document.addEventListener("DOMContentLoaded",  function(){
             customerPhone: custPhone,
             billItems: JSON.stringify({ billItems: prodJson }),
             billTotal: totBillValue,
-            amountPaid: amtPaid
+            amountPaid: amtPaid,
+            balanceAmount: balance,
+            bDate: Date.parse(new Date())
          }
      
          await ipcRender.send('newBillSubmit', (event, bill));
@@ -187,8 +192,8 @@ document.addEventListener("DOMContentLoaded",  function(){
 
     async function qtyUpdate(prodItemCode, qty){
         let prodItem = await knex('products').select('runningStock', 'soldQuantity', 'availableQuantity').where('productCode', prodItemCode)
-        let soldQty = parseFloat(prodItem[0].soldQuantity) + parseFloat(qty)
-        let avlQty =  parseFloat(prodItem[0].runningStock) - parseFloat(soldQty)
+        let soldQty = parseFloat(prodItem[0].soldQuantity).toFixed(2) + parseFloat(qty).toFixed(2)
+        let avlQty =  parseFloat(prodItem[0].runningStock).toFixed(2) - parseFloat(soldQty).toFixed(2)
         resultProd = await knex('products').where('productCode', prodItemCode).update({
          soldQuantity: soldQty,
          availableQuantity: avlQty

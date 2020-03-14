@@ -1,0 +1,27 @@
+<html>
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="../js/jquery-3.4.1.min.js"> </script>
+  <script src="../js/billReport.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/common.css"> 
+  <table border="1" style=" border-collapse: collapse; padding: 15px;font-weight: bold;">
+    <tr><td>  <button id="button-a">Download</button></td>
+        <td style="padding: 10px;">Total No.</td><td id="tot-no" style="padding: 10px;"></td>
+        <td style="padding: 10px;">Total Amount</td><td id="tot-bill" style="padding: 10px;"></td></tr>
+
+</table>
+
+  <table id="bill-rep" border="1" style=" border-collapse: collapse;">
+    <tr>
+        <th>Sno.</th>
+        <th>BillNum</th>
+        <th>Date</th>
+        <th>Customer Name</th>
+        <th>Customer Number</th>
+        <th>Bill Total</th>
+        <th>Amount Paid</th>
+        <th>Balance Due</th>
+        </tr>
+        <div id="result"></div>
+    </table>
+
+  </html>

@@ -3,7 +3,28 @@
          <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
        <script src="../js/jquery-3.4.1.min.js"> </script>
          <script src="../js/reports.js"></script>
-         <link rel="stylesheet" type="text/css" href="../css/common.css"> 
+        <style>
+          button {
+          width: auto;
+          padding: 10px;
+          border: none;
+          -webkit-border-radius: 5px; 
+          -moz-border-radius: 5px; 
+          border-radius: 5px; 
+          background-color: #095484;
+          font-size: 16px;
+          color: #fff;
+          cursor: pointer;
+          }
+          button:hover {
+          background-color: #0666a3;
+          }
+          input{
+            width: 100%;
+            height: 100%;
+          }
+
+          </style>
 
 
          <button id="home-btn" type="button">Home</button>
@@ -14,24 +35,25 @@
 
          <button id="today-bill" type="button">Today's Bills</button>
 
-         <button id="month-bill" type="button">This Month Bills</button>
-
-         <button id="fy-bill" type="button">FY Bills</button>
-
 <br/>
 <br/>
-         <table>
-            <tr><td><h2>Search Bills by date</h2></td></tr>
+<tr><td><h2>Search Bills Between Dates:</h2></td></tr>
+         <table border="1" style=" border-collapse: collapse;" width="40%">
+
             <tr><th>From Date</th>
                 <th>To Date</th>
                 </tr>
                 <tr>
-                <td><input id="frm-date" text="from-date"></td>
-                <td><input id="to-date" text="to-date"></td>
+
+                <td><input id="from-date" text="from-date" type="date" size="50"></td>
+                <td><input id="to-date" text="to-date" type="date" size="50"></td>
+           
             </tr>
            <tr>
+            <td></td>
         <td>
             <button id="bill-dates" type="button">Go</button></td>
+
            </tr>
             </table>
 
