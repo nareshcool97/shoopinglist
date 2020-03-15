@@ -1,0 +1,86 @@
+<html>
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<script src="../js/jquery-3.4.1.min.js"> </script>
+  <script src="../js/billShow.js"></script>
+  <link rel="stylesheet" type="text/css" href="../css/common.css"> 
+  <table border="1" style=" border-collapse: collapse; padding: 15px;font-weight: bold;">
+    <tr><td>  <button id="print-bill">Print</button></td>
+
+</table>
+
+
+<head>
+<style>
+    h1{
+        margin: 5px 5px 5px 5px;
+    }
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  position: relative;
+  margin: 5px 5px 5px 5px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<table id="prods-tbl">
+  <tr>
+   <td width="20%">
+    Bill Number: 
+    </td>
+    <td id="bill-no"></td>
+  </tr>
+  <tr>
+   <td>
+    Bill Date: 
+    </td>
+    <td id="bill-date"></td>
+  </tr>
+  <tr>
+   <td>
+    Bill Total: 
+    </td>
+    <td id="bill-total"></td>
+  </tr>
+
+  <tr>
+   <td>
+    Amount Paid: 
+    </td>
+    <td id="bill-paid"></td>
+  </tr>
+  <tr>
+   <td>
+    Balance Total: 
+    </td>
+    <td id="bal-total"></td>
+  </tr>
+</table>
+
+<table id="prods-tbl">
+  <tr>
+    <th width="10%">ProductCode</th>
+    <th width="20%">Title</th>
+    <th width="10%">Sale Price</th>
+    <th width="8%">SaleTax</th>
+    <th width="10%">Discount</th>
+    <th width="8%">Quantity</th>
+    <th width="10%">Value</th>
+    <th width="10%">Final Value</th>
+  </tr>
+  <tbody id="prods"></tbody>
+</table>
+
+</body>
+  </html>

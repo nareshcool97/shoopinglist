@@ -14,5 +14,5 @@ exports.up = async knex => {
 };
 
 exports.down = async knex => {
-    return knex.schema.dropTableIfExists('IF EXISTS users');
+    return knex.schema.dropTableIfExists('users');
 };

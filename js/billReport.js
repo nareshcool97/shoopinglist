@@ -31,13 +31,22 @@ document.addEventListener("DOMContentLoaded",  function(){
                     td.innerHTML = element[key] 
                 }
                  if(key === 'billTotal') sum = sum + element[key] 
+
                 resultEl.appendChild(tr).appendChild(td) 
+                
             });
-     
+            let td1= document.createElement('td')
+            let showBtn = document.createElement('button')
+            showBtn.innerHTML = "Show"
+            resultEl.appendChild(tr).appendChild(td1).appendChild(showBtn) 
+            let billNo = element.billNumber
+            showBtn.addEventListener('click', (event) => {
+                ipcRender.send("billShow", billNo)
+                
+            });
             // resultEl.insertAdjacentHTML('afterbegin', '<tr><td>One </td><td>Tow</td><td>Three</td></tr>');
         });
         billTot.innerHTML = sum
-        console.log(result.length)
         billNo.innerHTML = result.length
         await saveExcel();
     });

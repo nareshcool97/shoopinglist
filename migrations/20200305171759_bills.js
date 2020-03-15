@@ -23,5 +23,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTableIfExists('IF EXISTS bills');
+    return knex.schema.dropTableIfExists('bills');
 };

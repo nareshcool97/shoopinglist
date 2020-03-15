@@ -122,6 +122,16 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         showWindow.loadURL(`file://${__dirname}/`+ 'views/productsReport' +`.html`)
     })
 
+    ipcMain.on("billShow", (event, billNo) => {
+        const showWindow = new BrowserWindow({
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        global.billNo = billNo
+        showWindow.loadURL(`file://${__dirname}/`+ 'views/billShow' +`.html`)
+    })
+
     ipcMain.on("todaysBill", event => {
         const showWindow = new BrowserWindow({
             webPreferences: {
@@ -183,6 +193,11 @@ ipcMain.on('newProdSubmit', async (event, args) => {
          await event.sender.send('productDetailsSent', (event, result[0]));
     });
 
+    ipcMain.on('billShowLoaded', async (event, billNumber) => {
+        const result = await knex('bills').select('*').where('billNumber', billNumber)        
+         await event.sender.send('billDetSent', (event, result[0]));
+    });
+
     ipcMain.on('editProdSubmit', async (event, data) => {
         let prodCode = data['productCode']
         delete data['productCode'] 
@@ -201,6 +216,35 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         barcodePdf(result[0])
     });
 
+    ipcMain.on('todoAdd', async (event, todo) => {
+        let todoRes = await knex('todo').insert(todo)
+        if(typeof todoRes[0] == 'number'){
+            await event.sender.send('todoAdded');
+            await callNotification('Created a todo list item!')
+        }else{
+            await callNotification('Todo not successfully added! Try again!')
+        } 
+        
+    });
+
+    ipcMain.on('toDoListLoaded', async (event, todo) => {
+        let todoRes = await knex('todo').select('toDoNumber','textTodo').where('done', false).orderBy('id', 'desc')
+        await event.sender.send('todoListRendered', (event,todoRes));     
+    });
+
+    ipcMain.on('deleteTodo', async (event, delId) => {
+        let redel = await knex('todo').where('toDoNumber', delId).delete()
+    });
+
+    ipcMain.on('upDateTodo', async (event, todoId) => {
+        let redel = await knex('todo').where('toDoNumber', todoId).update({'done': true, 'updatedAt': new Date()})
+    });
+
+    ipcMain.on('completedListLoaded', async (event, todo) => {
+        let todoRes = await knex('todo').select('toDoNumber','textTodo').where('done', true).orderBy('updatedAt', 'desc')
+        await event.sender.send('completdListRendered', (event,todoRes));     
+    });
+
     ipcMain.on("printBill", async (evt, invoiceNum)=>{
         let bill = await knex('bills').select('*').where('billNumber', invoiceNum)
          printBill(bill[0])
@@ -214,8 +258,7 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         global.billItems = newBill
  
         window_to_PDF.loadURL(`file://${__dirname}/`+ 'views/printBill' +`.html`); //give the file link you want to display
-
-    }
+      }
 
 
     async function barcodePdf(data){
@@ -277,7 +320,7 @@ const menuTemplate = [
             {
             label: 'Add Item',
             click(){
-                createAddItem();
+                alert("I'm Nothing")
             }
         },
         {

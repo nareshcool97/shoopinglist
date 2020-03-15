@@ -2,7 +2,7 @@
 
 
 		<meta charset="UTF-8">
-		<title> Sri Venkatesgwara Mini Mart</title>
+		<title> Sri Venkateshwara Mini Mart</title>
 		<meta name="description" content=" ">
  
         <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
@@ -11,27 +11,55 @@
         <link rel="stylesheet" type="text/css" href="../css/mainWindow.css">        
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<head>
+    <head>
+        
+        <table class="nav-bar" width="100%" height="15%">
+            <tr id="top-opt">
+                <td width="12%"><img  id="logo" src="../imgs/logo.png" alt="SVMM"  style="width:200px;height:80px;margin-bottom: 0px;">
+                    <td width="15%"><h1>SV-MINI MART</h1><span id="login-name"></span></td> </td>
+                 <td width="30%"><li><a id="make-bill-btn" href="#about">Make a Bill</a></li>
+                    <li><a id="prod-index-btn" href="#portfolio">Products</a></li>
+                    <li><a id="reports-btn" href="#about">Reports</a></li>
+                    <li><a id="logout-btn" href="#contact">Logout</a></li></td>
+                  <td width="15%"></td>
+                   <td width="15%"></td>
+                </tr>
+                <tr id="btm-opt">
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
+                </tr>
+            </table>
 
-           
           
 
-<div class="navbar-left">SV-MART
+<div class="title-logo">
        
-       
-         
-                <li><a href="#intro"> <div id="login-name"></div> </a></li>
-   				<li><a id="make-bill-btn" href="#about">Make a Bill</a></li>
-                <li><a id="prod-index-btn" href="#portfolio">Products</a></li>
-                <li><a id="logout-btn" href="#contact">Logout</a></li>
-                <li><a id="reports-btn" href="#about">Reports</a></li>
-
      
-        </div>
-        
-    </div>
-</nav>
+<body>
+
+
+
+<div class="row">
+  <div id="todo" class="column" style="background-image: linear-gradient(to bottom right,  #c5effb,  #b0f3fc, #94d2f7);">
+    <h2>Add To Do</h2>
+    <table  id="todo-tbl" width="100%">
+      <tr>
+        <td><textarea  type="textarea" id="todo-in"  title="Type in a name"></textarea>
+</td>
+        </tr>
+        <tr>
+          <td style="float: center"><button id="todo-btn" type="button">Add</button></td>
+          </tr>
+      </table>
+  </div>
+  <div class="column" style="background-image: linear-gradient(to bottom right,  #bfedf8,  #ace9f8, #88e2f8);">
+    <h2>Todo list items</h2>
+  <div id ="todo-list" ></div>
+      
+  </div>
+  <div class="column" style="background-image: linear-gradient(to bottom right,  #9be7fa,  #81e3fb, #0bcafa);">
+    <h2>Completed list items</h2>
+    <div  id="compl-todo"></div> 
+  </div>
+</div>
+
+</body>
