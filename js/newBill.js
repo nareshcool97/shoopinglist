@@ -37,23 +37,33 @@ document.addEventListener("DOMContentLoaded",  function(){
             event.preventDefault();
             searchBarInputBox.value = '';
             let prod =  await knex('products').select('productCode','title', 'salePrice','saleTax', 'discount',).where('productCode', item.value)
+
+            
+             
             if(typeof prod !== 'undefined' && prod.length > 0){
+              if(prodItemCodes().includes(prod[0].productCode)){
+                let incQty = 0
+                  let rowEle = document.getElementsByClassName(`quantity `+ prod[0].productCode)
+                  incQty = parseFloat(rowEle[0].value)
+                  incQty += parseFloat(1)
+                  rowEle[0].value = incQty
+              } else{
                 let resultEl = document.getElementById("inv-prod");
                 let tr = document.createElement('tr');
                 tr.id = prod[0].productCode
                 tr.className = "prod-row"
                 let td1 = document.createElement('td')
                 td1.className = "sNo"
-                prod[0].quantity = 1
+                prod[0].quantity = parseFloat(1).toFixed(2)
                 prod[0].value = parseFloat(prod[0].salePrice).toFixed(2)
-                prod[0].discountedValue = parseFloat(prod[0].salePrice - prod[0].discount).toFixed(2)
+                prod[0].discountedValue = prod[0].salePrice - prod[0].discount
                 resultEl.appendChild(tr).appendChild(td1)
                 Object.keys(prod[0]).forEach( key => {
                     let td= document.createElement('td')
                     
                     let input = document.createElement('input')
                     input.className = `${key} ${prod[0].productCode}`
-              
+                   
                     input.value = prod[0][`${key}`]
                     if(['quantity', 'value', 'salePrice', 'saleTax', 'discount', 'discountedValue'].includes(key)){
                         input.type='number'
@@ -61,8 +71,10 @@ document.addEventListener("DOMContentLoaded",  function(){
                     }else if('title' === key){
                         input.type="text"
                         input.size=100
+                        input.setAttribute("readonly", "true")
                         input.style.cssText = "pointer-events: none;text-align:left; text-overflow:visible, size=60";
                     }else if('productCode' === key){
+                        input.setAttribute("readonly", "true")
                         input.style.cssText = "pointer-events: none;text-align:left; text-overflow:visible";
                     }
    
@@ -76,7 +88,9 @@ document.addEventListener("DOMContentLoaded",  function(){
                 btn.style.cssText="font-size:10"
                  resultEl.appendChild(tr).appendChild(td2).appendChild(btn)
                 
-            }else{
+             } 
+           }
+            else{
                 alert('Something went wrong please redo!')
             }
             listItemsTrans();
@@ -121,26 +135,32 @@ document.addEventListener("DOMContentLoaded",  function(){
         let billAmt = 0
         for(var i = 0; i < qty.length; i++) {
 
-           let totVal = ((parseFloat(qty[i].value).toFixed(2) || 0) * (parseFloat(price[i].value).toFixed(2) || 0)) + ((parseFloat(tax[i].value).toFixed(2) || 0 ))
-           let disTot = (parseFloat(totVal).toFixed(2) || 0 ) - (parseFloat(disc[i].value).toFixed(2) || 0)
+           let totVal = ((parseFloat(qty[i].value) || 0) * (parseFloat(price[i].value) || 0)) + ((parseFloat(tax[i].value) || 0 ))
+           let disTot = (parseFloat(totVal) || 0 ) - (parseFloat(disc[i].value) || 0)
            val[i].value = parseFloat(totVal).toFixed(2)
            discVal[i].value = parseFloat(disTot).toFixed(2)
-           billAmt += parseFloat(discVal[i].value).toFixed(2);
+           billAmt += parseFloat(discVal[i].value);
         }
         totalDiscountedBill.value = parseFloat(billAmt).toFixed(2)
-        balDue.value = parseFloat(billAmt).toFixed(2) - parseFloat(totalAmountPaid.value).toFixed(2)
+        balDue.value = parseFloat(billAmt) - parseFloat(totalAmountPaid.value)
+    }
+
+    function prodItemCodes(){
+        let prodCodes = []
+        let prods = document.getElementsByClassName('prod-row')
+        for(var i = 0; i < prods.length; i++) {
+            prodCodes.push(prods[i].id)
+        }
+        return prodCodes
     }
 
     let saveBtn = document.getElementById('save-bill')
 
     saveBtn.addEventListener("click", async event => {
         calBillTotal();
-        let prodCodes = []
         let prodJson = []
-        let prods = document.getElementsByClassName('prod-row')
-        for(var i = 0; i < prods.length; i++) {
-            prodCodes.push(prods[i].id)
-        }
+        let prodCodes = []
+        prodCodes = prodItemCodes();
 
         prodCodes.forEach( code => {
           let prodDet = document.getElementsByClassName(code)
@@ -192,11 +212,11 @@ document.addEventListener("DOMContentLoaded",  function(){
 
     async function qtyUpdate(prodItemCode, qty){
         let prodItem = await knex('products').select('runningStock', 'soldQuantity', 'availableQuantity').where('productCode', prodItemCode)
-        let soldQty = parseFloat(prodItem[0].soldQuantity).toFixed(2) + parseFloat(qty).toFixed(2)
-        let avlQty =  parseFloat(prodItem[0].runningStock).toFixed(2) - parseFloat(soldQty).toFixed(2)
+        let soldQty = parseFloat(prodItem[0].soldQuantity) + parseFloat(qty)
+        let avlQty =  parseFloat(prodItem[0].runningStock) - parseFloat(soldQty)
         resultProd = await knex('products').where('productCode', prodItemCode).update({
-         soldQuantity: soldQty,
-         availableQuantity: avlQty
+         soldQuantity: parseFloat(soldQty).toFixed(2),
+         availableQuantity: parseFloat(avlQty).toFixed(2)
         })
 
     }
