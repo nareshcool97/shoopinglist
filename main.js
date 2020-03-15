@@ -172,9 +172,9 @@ ipcMain.on('newProdSubmit', async (event, args) => {
             start.setHours(0,0,0,0);
             var end = new Date();
             end.setHours(23,59,59,999)
-            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [Date.parse(start), Date.parse(end)])
+            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [Date.parse(start), Date.parse(end)]).orderBy('billDate', 'desc')
         }else{ 
-            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [data.from, data.end])
+            result = await knex('bills').select('id','billNumber','billDate','customerName','customerPhone','billTotal','amountPaid','balanceAmount').whereBetween('bDate', [data.from, data.end]).orderBy('billDate', 'desc')
         }
     
          await event.sender.send('billReportSent', (event, result));
@@ -228,7 +228,7 @@ ipcMain.on('newProdSubmit', async (event, args) => {
     });
 
     ipcMain.on('toDoListLoaded', async (event, todo) => {
-        let todoRes = await knex('todo').select('toDoNumber','textTodo').where('done', false).orderBy('id', 'desc')
+        let todoRes = await knex('todo').select('toDoNumber','textTodo', 'createdAt').where('done', false).orderBy('id', 'desc')
         await event.sender.send('todoListRendered', (event,todoRes));     
     });
 
@@ -241,7 +241,7 @@ ipcMain.on('newProdSubmit', async (event, args) => {
     });
 
     ipcMain.on('completedListLoaded', async (event, todo) => {
-        let todoRes = await knex('todo').select('toDoNumber','textTodo').where('done', true).orderBy('updatedAt', 'desc')
+        let todoRes = await knex('todo').select('toDoNumber','textTodo', 'updatedAt').where('done', true).orderBy('updatedAt', 'desc')
         await event.sender.send('completdListRendered', (event,todoRes));     
     });
 

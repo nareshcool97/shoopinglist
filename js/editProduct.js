@@ -49,9 +49,7 @@ document.addEventListener("DOMContentLoaded", async function(){
         await ipcRenderer.send('editProdSubmit', (event, data));
         await ipcRenderer.on("productEdited", () => {
             window.close();
-            window.on('closed', function(){
-                window.opener.reload();
-            })
+            ipcRenderer.send("productsWindowLoaded")
         })
     });
 

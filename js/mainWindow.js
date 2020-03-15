@@ -42,7 +42,8 @@ document.addEventListener("DOMContentLoaded", function(){
           toDoNumber: Date.parse(new Date()),
           userId: localStorage.userId,
           textTodo: textTodo,
-          done: false
+          done: false,
+          createdAt: new Date()
           }
 
   
@@ -80,9 +81,12 @@ document.addEventListener("DOMContentLoaded", function(){
           let card = document.createElement('div')
           card.className = "card"
           let textSpan = document.createElement('p')
-
+         
           textSpan.innerHTML = element.textTodo
 
+          let textSpan1 = document.createElement('span')
+          textSpan1.innerHTML =  new Date(element.createdAt).toString().substr(0,21)
+          textSpan1.style.cssText = "ver"
           let checkBtn = document.createElement('input')
           checkBtn.type='button'
           checkBtn.className = "button-add"
@@ -92,9 +96,11 @@ document.addEventListener("DOMContentLoaded", function(){
           delBtn.type='button'
           delBtn.className = "button-del"
           delBtn.id = element.toDoNumber+`-del`
+          card.appendChild(textSpan1)
           card.appendChild(textSpan)
           card.appendChild(checkBtn)
           card.appendChild(delBtn)
+          
           todoList.appendChild(cardColDiv).appendChild(card)
 
           delBtn.addEventListener('click', event => {
@@ -132,11 +138,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
           textSpan.innerHTML = element.textTodo
           textSpan.style.cssText="text-decoration: line-through;"
+          let textSpan1 = document.createElement('span')
+          textSpan1.innerHTML =  new Date(element.updatedAt).toString().substr(0,21)
           let delBtn = document.createElement('input')
           delBtn.type='button'
           delBtn.className = "button-del"
           delBtn.id = element.toDoNumber+`-del`
           delBtn.style.cssText="float:right"
+          card.appendChild(textSpan1)
           card.appendChild(textSpan)
           card.appendChild(delBtn)
           compTodo.appendChild(cardColDiv).appendChild(card)

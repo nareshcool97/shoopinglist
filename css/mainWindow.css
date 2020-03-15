@@ -61,7 +61,7 @@ li {
 
 .column {
   float: left;
-  width: 33%;
+  width: 33.33%;
   padding: 10px;
   resize: vertical;
   min-height: 600px;
@@ -154,7 +154,15 @@ button {
     -moz-border-radius: 5px;
     border-radius: 5px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
-  
+  }
+
+  .card span{
+    vertical-align: top;
+    float: left;
+    align-content: top;
+    font-size: 10px;
+    color: #7c7e7c;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
   }
 
   input.button-add {
