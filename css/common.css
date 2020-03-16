@@ -179,7 +179,7 @@ button {
     }
 
     .autocomplete {
-      background: rgb(216, 240, 194);
+      background: rgb(194, 250, 199);
       z-index: 1000;
       font: 14px/22px "-apple-system", BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       overflow: scroll;
@@ -212,6 +212,6 @@ button {
     
     .autocomplete > div:hover:not(.group),
     .autocomplete > div.selected {
-      background: #7abd89;
+      background: #35ff23;
       cursor: pointer;
     }

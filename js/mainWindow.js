@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("login-name").innerHTML = localStorage.getItem("userName");
     var logout =  document.getElementById('logout-btn')
     var prodPage = document.getElementById('prod-index-btn')
-    var makeBill = document.getElementById('make-bill-btn')
+    var newBill = document.getElementById('make-bill-btn')
     var reportBtn = document.getElementById('reports-btn')
     var window = remote.getCurrentWindow({webPreferences: {
       nodeIntegration: true
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
       await window.loadURL(`file://${__dirname}/`+ 'products' +`.html`)
     });
 
-    makeBill.addEventListener('click', async () => {
+    newBill.addEventListener('click', async () => {
       await window.loadURL(`file://${__dirname}/`+ 'newBill' +`.html`)
     });
 
