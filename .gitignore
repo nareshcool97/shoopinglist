@@ -113,3 +113,4 @@ dist
 /imgs/.DS_Store 
 vscode/
 ./release-builds
+release-builds-folder/
