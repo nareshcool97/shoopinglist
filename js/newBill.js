@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                 let tr = document.createElement('tr');
                 tr.id = prod[0].productCode
                 tr.className = "prod-row"
-                tr.style.cssText = "background-color: rgb(216, 240, 161)"
+                tr.style.cssText = "background-color: rgb(216, 240, 161);font-weight: 550;font-size:18px;"
                 let td1 = document.createElement('td')
                 td1.className = "sNo"
                 prod[0].quantity = parseFloat(1).toFixed(2)
@@ -68,15 +68,15 @@ document.addEventListener("DOMContentLoaded",  function(){
                     input.value = prod[0][`${key}`]
                     if(['quantity', 'value', 'salePrice', 'saleTax', 'discount', 'discountedValue'].includes(key)){
                         input.type='number'
-                        input.style.cssText = "background-color: rgb(237, 241, 194);text-align:right;size=50;-webkit-appearance: none;-moz-appearance: textfield;";
+                        input.style.cssText = "font-size:18px;font-weight: 550;background-color: rgb(237, 241, 194);text-align:right;size=50;-webkit-appearance: none;-moz-appearance: textfield;";
                     }else if('title' === key){
                         input.type="text"
                         input.size=100
                         input.setAttribute("readonly", "true")
-                        input.style.cssText = "background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible, size=60";
+                        input.style.cssText = "font-size:18px;font-weight: 550;background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible, size=60";
                     }else if('productCode' === key){
                         input.setAttribute("readonly", "true")
-                        input.style.cssText = "background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible";
+                        input.style.cssText = "font-size:18px;font-weight: 550;background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible";
                     }
    
                     resultEl.appendChild(tr).appendChild(td).appendChild(input)
@@ -101,9 +101,10 @@ document.addEventListener("DOMContentLoaded",  function(){
     function listItemsTrans(){
         let delBtn = document.getElementsByClassName('dlt-btn')
         let sNo = document.getElementsByClassName('sNo')
-
+          
         for(var i = 0; i < delBtn.length; i++) {
             sNo[i].innerHTML = i+1
+            sNo[i].style.cssText="text-align: center;"
             calBillTotal();
             delBtn[i].addEventListener("click", event => {
                 calBillTotal();
