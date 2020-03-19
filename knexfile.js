@@ -1,13 +1,17 @@
 // Update with your config settings.
+const path = require('path')
+const autoDb = path.resolve(__dirname, './database.sqlite').replace('app.asar','')
+const migrationsPath =  path.resolve(__dirname, './migrations').replace('app.asar','')
+
 module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './database.sqlite'
+      filename: autoDb
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: './migrations'
+      directory: migrationsPath
     },
     useNullAsDefault: true
   },
@@ -15,11 +19,11 @@ module.exports = {
   staging: {
     client: 'sqlite3',
     connection: {
-      filename: './database_stg.sqlite'
+      filename: autoDb
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: './migrations'
+      directory: migrationsPath
     },
     useNullAsDefault: true
   },
@@ -27,11 +31,11 @@ module.exports = {
   production: {
     client: 'sqlite3',
     connection: {
-      filename: './db/database_prod.sqlite'
+      filename: autoDb
     },
     migrations: {
       tableName: 'knex_migrations',
-      directory: './migrations'
+      directory: migrationsPath
     },
     useNullAsDefault: true
   },

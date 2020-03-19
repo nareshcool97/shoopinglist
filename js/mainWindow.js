@@ -127,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         var compTodo = document.getElementById("compl-todo")
         compTodo.innerHTML =''
-        console.log(result)
         result.forEach(element => {
           
           let cardColDiv = document.createElement('div')

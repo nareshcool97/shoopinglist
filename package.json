@@ -4,12 +4,12 @@
   "description": "shopping list",
   "main": "main.js",
   "scripts": {
-    "start": "knex migrate:latest && electron .",
+    "start": "npx knex migrate:latest && electron .",
     "start-dev": "NODE_ENV=development knex migrate:latest && electron .",
     "start-debug": "electron . --inspect",
     "rebuild": "electron-rebuild -f -w sqlite3",
-    "package-mac": "electron-packager . --overwrite --asar=true --platform=darwin --arch=x64 --icon=imgs/logo.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=imgs/logo.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ShoppingList\"",
+    "package-mac": "electron-packager . --overwrite --asar=true --extraResource=\"migrations\" --platform=darwin --arch=x64 --icon=imgs/logo.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . svmart --overwrite --asar=true --extraResource=\"migrations\" --platform=win32 --arch=ia32 --icon=imgs/logo.ico --prune=true --out=release-builds --version-string.CompanyName=ANK --version-string.FileDescription=ANK --version-string.ProductName=\"svmart\"",
     "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=imgs/logo.png --prune=true --out=release-builds"
   },
   "repository": {
@@ -19,6 +19,13 @@
   "keywords": [
     "shp"
   ],
+  "extraResource": [
+    "database.sqlite",
+    "migrations/*"
+  ],
+  "externals": {
+    "sqlite3": "sqlite3"
+  },
   "author": "Naresh Ausula",
   "license": "MIT",
   "dependencies": {
@@ -26,8 +33,7 @@
     "bwip-js": "^2.0.6",
     "electron": "8.0.1",
     "file-saver": "^2.0.2",
-    "knex": "^0.20.10",
-    "knex-upsert": "0.0.4",
+    "knex": "^0.20.11",
     "sqlite3": "^4.1.1",
     "xlsx": "^0.15.5"
   },

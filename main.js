@@ -14,7 +14,7 @@ const mainWindowUrl = url.format({
 
 
 function callNotification(title, message){
-    let iconAddress = path.join(__dirname, '/icon.png');
+    let iconAddress = path.join(__dirname, 'imgs/logo.png');
     const notif={
           title: title,
           body: message,
@@ -161,6 +161,7 @@ ipcMain.on('newProdSubmit', async (event, args) => {
         }else{ 
           result = await knex('products').select('id','productCode','title','description','productType','salePrice','purchasePrice','discount','runningStock','soldQuantity','availableQuantity').orderBy('title', 'inc')
         }
+        console.log(result)
          await event.sender.send('productsResultSent', (event, result));
         // await event.sender.send('productDetSent', (event, result[0]));
     });
@@ -275,33 +276,6 @@ ipcMain.on('newProdSubmit', async (event, args) => {
     }
 
 
-
-exports.openWindow = (filename) => {
-    let win = new BrowserWindow({
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-    win.loadURL(`file://${__dirname}/`+ filename +`.html`)
-}
-
-const addItemUrl = url.format({
-    pathname: path.join(__dirname, "./views/addItem.html"),
-    protocol: "file:",
-    slashes: true
-});
-
-function createAddItem(){
-    let addItem = new BrowserWindow({
-        width: 300,
-        height: 400,
-        title: 'Add items'
-    });
-    addItem.loadURL(addItemUrl);
-    addItem.on('closed', function(){
-        addItem = null
-    })
-}
 
 function isMac(){
     process.platform == 'darwin'

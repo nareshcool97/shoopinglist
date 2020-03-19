@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded",  function(){
         fetch: async (text, update) => {
             text = text.toLowerCase();
             // you can also use AJAX requests instead of preloaded data
-            let suggestions = await knex('products').select('title', 'productCode').where('productCode', 'like', '%'+text+'%').orWhere('title', 'like', '%'+text+'%').map(item => item).filter(n => n.productCode.toLowerCase().search(text) || n.title.toLowerCase().search(text));
+            let suggestions = await knex('products').select('title', 'productCode').where('productCode', 'like', '%'+text+'%').orWhere('title', 'like', '%'+text+'%')
             suggestions = suggestions.map(item => ({ value: item.productCode, label: item.title }))
             update(suggestions);
         },
@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded",  function(){
                 let tr = document.createElement('tr');
                 tr.id = prod[0].productCode
                 tr.className = "prod-row"
+                tr.style.cssText = "background-color: rgb(216, 240, 161)"
                 let td1 = document.createElement('td')
                 td1.className = "sNo"
                 prod[0].quantity = parseFloat(1).toFixed(2)
@@ -67,15 +68,15 @@ document.addEventListener("DOMContentLoaded",  function(){
                     input.value = prod[0][`${key}`]
                     if(['quantity', 'value', 'salePrice', 'saleTax', 'discount', 'discountedValue'].includes(key)){
                         input.type='number'
-                        input.style.cssText = "text-align:right;size=50;-webkit-appearance: none;-moz-appearance: textfield;";
+                        input.style.cssText = "background-color: rgb(237, 241, 194);text-align:right;size=50;-webkit-appearance: none;-moz-appearance: textfield;";
                     }else if('title' === key){
                         input.type="text"
                         input.size=100
                         input.setAttribute("readonly", "true")
-                        input.style.cssText = "pointer-events: none;text-align:left; text-overflow:visible, size=60";
+                        input.style.cssText = "background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible, size=60";
                     }else if('productCode' === key){
                         input.setAttribute("readonly", "true")
-                        input.style.cssText = "pointer-events: none;text-align:left; text-overflow:visible";
+                        input.style.cssText = "background-color: rgb(237, 241, 194);pointer-events: none;text-align:left; text-overflow:visible";
                     }
    
                     resultEl.appendChild(tr).appendChild(td).appendChild(input)
@@ -83,9 +84,7 @@ document.addEventListener("DOMContentLoaded",  function(){
 
                 let td2= document.createElement('td')
                 let btn = document.createElement('button')
-                btn.innerHTML = "remove"
                 btn.className = "dlt-btn"
-                btn.style.cssText="font-size:10"
                  resultEl.appendChild(tr).appendChild(td2).appendChild(btn)
                 
              } 

@@ -212,6 +212,35 @@ button {
     
     .autocomplete > div:hover:not(.group),
     .autocomplete > div.selected {
-      background: #35ff23;
+      background: #81f576;
       cursor: pointer;
     }
+
+    .dlt-btn {
+      background-image: url(../imgs/delete.svg); /* 16px x 16px */
+      background-color: transparent; /* make the button transparent */
+      background-repeat: no-repeat;  /* make the background image appear only once */
+      background-position: 0px 0px;  /* equivalent to 'top left' */
+      border: none;           /* assuming we don't want any borders */
+      cursor: pointer;        /* make the cursor like hovering over an <a> element */
+      height: 16px;           /* make this the size of your image */
+      width: 20px;
+      padding-left: 16px;     /* make text start to the right of the image */
+      vertical-align: center; /* align the text vertically centered */
+      float: right;
+    }
+
+    .dlt-btn:hover{
+      background-image: url(../imgs/delete.svg); /* 16px x 16px */
+      background-color: transparent; /* make the button transparent */
+      background-repeat: no-repeat;  /* make the background image appear only once */
+      background-position: 0px 0px;  /* equivalent to 'top left' */
+      cursor: pointer;        /* make the cursor like hovering over an <a> element */
+      height: 30px;           /* make this the size of your image */
+      width: 30px;
+      padding-left: 16px;     /* make text start to the right of the image */
+      vertical-align: top; /* align the text vertically centered */
+      border: 1px solid rgb(237, 241, 194);
+      border-radius: 3px;
+    }
+    
